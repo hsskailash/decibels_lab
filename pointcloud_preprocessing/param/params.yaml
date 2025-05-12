@@ -1,0 +1,11 @@
+/**:
+  ros__parameters:
+
+    pointCloudTopic: "/ouster/points"
+    robot_base_frame: "base_link"
+    lidarFrame: "os_sensor"
+    sensor: "ouster"  # Options: "velodyne", "ouster"
+    length: 10.0  # Length of the crop box
+    width: 10.0   # Width of the crop box
+    height: 3.0   # Height of the crop box
+    negative: false  # Whether to crop points outside the box

@@ -1,0 +1,65 @@
+<launch>
+    <arg name="pointCloudTopic" default="/ouster/points"/>
+    <arg name="robot_base_frame" default="base_link"/>
+    <arg name="lidarFrame" default="os_sensor"/>
+    <arg name="sensor" default="ouster"/>
+    <arg name="length" default="4.8"/>
+    <arg name="width" default="2.0"/>
+    <arg name="height" default="2.0"/>
+    <arg name="negative" default="false"/>
+
+    <arg name="min_radius" default="0.5"/>
+    <arg name="max_radius" default="1000.0"/>
+    <arg name="ground_slope" default="0.5"/>
+    <arg name="height_threshold" default="10.5"/>
+    <arg name="radial_divider_angle" default="0.001"/>
+
+    <arg name="distance_threshold" default="0.3"/>
+    <arg name="max_iterations" default="1500"/>
+    <arg name="voxel_size" default="0.05"/>
+    <arg name="mean_k" default="100"/>
+    <arg name="std_dev_thresh" default="10.0"/>
+    <arg name="z_max" default="2.50"/>
+    <arg name="z_min" default="-1.37"/>                                                                   
+
+
+
+
+
+    <node pkg="pointcloud_preprocessing" exec="crop_box_filter" name="crop_box_filter_node" output="screen">
+        <param name="pointCloudTopic" value="$(var pointCloudTopic)"/>
+        <param name="robot_base_frame" value="$(var robot_base_frame)"/>
+        <param name="lidarFrame" value="$(var lidarFrame)"/>
+        <param name="sensor" value="$(var sensor)"/>
+        <param name="length" value="$(var length)"/>
+        <param name="width" value="$(var width)"/>
+        <param name="height" value="$(var height)"/>
+        <param name="negative" value="$(var negative)"/>
+    </node>
+
+    <node pkg="pointcloud_preprocessing" exec="ray_ground_classifier" name="ray_ground_classifier_node" output="screen">
+        <param name="pointCloudTopic" value="$(var pointCloudTopic)"/>
+        <param name="min_radius" value="$(var min_radius)"/>
+        <param name="max_radius" value="$(var max_radius)"/>
+        <param name="ground_slope" value="$(var ground_slope)"/>
+        <param name="height_threshold" value="$(var height_threshold)"/>
+        <param name="radial_divider_angle" value="$(var radial_divider_angle)"/>
+        <!-- <param name="mean_k" value="$(var mean_k)"/>
+        <param name="voxel_size" value="$(var voxel_size)"/>
+        <param name="std_dev_thresh" value="$(var std_dev_thresh)"/> -->
+
+    </node>
+
+        <node pkg="pointcloud_preprocessing" exec="ransac_filter" name="ransac_filter_node" output="screen">
+            <param name="pointCloudTopic" value="$(var pointCloudTopic)"/>
+            <param name="distance_threshold" value="$(var distance_threshold)"/>
+            <param name="max_iterations" value="$(var max_iterations)"/>
+            <param name="voxel_size" value="$(var voxel_size)"/>
+            <param name="mean_k" value="$(var mean_k)"/>
+            <param name="std_dev_thresh" value="$(var std_dev_thresh)"/>
+            <param name="z_max" value="$(var z_max)"/>
+            <param name="z_min" value="$(var z_min)"/>
+            
+            
+        </node>
+</launch>

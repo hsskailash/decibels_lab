@@ -58,7 +58,7 @@
 #include <thread>
 #include <mutex>
 #include "os_point.h"
-
+#include "velodyne_point.h"
 // struct VelodynePointXYZIRT {
 //         PCL_ADD_POINT4D;
 //         PCL_ADD_INTENSITY;
@@ -67,7 +67,7 @@
 //         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 //     } EIGEN_ALIGN16;
 
-// POINT_CLOUD_REGISTER_POINT_STRUCT(VelodynePointXYZIRT,
+// POINT_CLOUD_REGISTER_POINT_STRUCT(VelodynePoint,
 //                                   (float, x, x)
 //                                   (float, y, y)
 //                                   (float, z, z)
@@ -75,7 +75,7 @@
 //                                   (uint16_t, ring, ring)
 //                                   (float, time, time));
 
-// using VelodynePC = VelodynePointXYZIRT;
+using VelodynePC = pcl::PointCloud<velodyne_ros::Point>;
 using OusterPC = pcl::PointCloud<ouster_ros::Point>;
 enum class SensorType { VELODYNE, OUSTER};
 
@@ -125,16 +125,16 @@ public:
         {
             sensor = SensorType::OUSTER;
         }
-        // else if (sensorStr == "velodyne")
-        // {
-        //     sensor = SensorType::VELODYNE;
-        // }
+        else if (sensorStr == "velodyne")
+        {
+            sensor = SensorType::VELODYNE;
+        }
         
         else
         {
             RCLCPP_ERROR_STREAM(
                 get_logger(),
-                "Invalid sensor type (must be 'ouster' ): " << sensorStr);
+                "Invalid sensor type (must be 'ouster' or 'velodyne'): " << sensorStr);
             rclcpp::shutdown();
         }
 
@@ -168,26 +168,26 @@ public:
             auto output_cloud = std::make_shared<OusterPC>();
             output_cloud_ = output_cloud;
 
-        // } else if (sensor == SensorType::VELODYNE) {
-        //     auto cloud = std::make_shared<VelodynePC>();
-        //     pcl::fromROSMsg(*msg, *cloud);
-        //     input_cloud_ = cloud;
+        } else if (sensor == SensorType::VELODYNE) {
+            auto cloud = std::make_shared<VelodynePC>();
+            pcl::fromROSMsg(*msg, *cloud);
+            input_cloud_ = cloud;
 
-        //     auto output_cloud = std::make_shared<VelodynePC>();
-        //     output_cloud_ = output_cloud;
-        // }
+            auto output_cloud = std::make_shared<VelodynePC>();
+            output_cloud_ = output_cloud;
+        }
 
         // Publish the output cloud
         sensor_msgs::msg::PointCloud2 output_msg;
         if (sensor == SensorType::OUSTER) {
             pcl::toROSMsg(*std::static_pointer_cast<OusterPC>(output_cloud_), output_msg);
         } 
-        // else if (sensor == SensorType::VELODYNE) {
-        //     pcl::toROSMsg(*std::static_pointer_cast<VelodynePC>(output_cloud_), output_msg);
-        // }
+        else if (sensor == SensorType::VELODYNE) {
+            pcl::toROSMsg(*std::static_pointer_cast<VelodynePC>(output_cloud_), output_msg);
+        }
         filtered_pointcloud_pub_->publish(output_msg);
     }
-    }
-};
+    };
+// };
 
 #endif 

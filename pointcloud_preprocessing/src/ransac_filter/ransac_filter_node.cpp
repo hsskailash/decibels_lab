@@ -60,28 +60,67 @@ public:
             RCLCPP_ERROR(get_logger(), "Received a null PointCloud2 message.");
             return;
         }
-
-        OusterPC::Ptr input_cloud = std::make_shared<OusterPC>();
         pcl::PointCloud<pcl::PointXYZRGB>::Ptr buffer_cloud = std::make_shared<pcl::PointCloud<pcl::PointXYZRGB>>();
+        if (sensor == SensorType::OUSTER) {
+            OusterPC::Ptr input_cloud = std::make_shared<OusterPC>();
+            try 
+            {
+                pcl::fromROSMsg(*msg, *input_cloud);
+            } catch (const std::exception& e) {
+                RCLCPP_ERROR(get_logger(), "Error converting PointCloud2 to PCL: %s", e.what());
+                return;
+            }
+            input_cloud_ = input_cloud;
+            if (input_cloud->empty()) {
+                RCLCPP_WARN(get_logger(), "Input cloud is empty.");
+                return;
+            }            
+            buffer_cloud->resize(input_cloud->size());
+            for (size_t i = 0; i < input_cloud->size(); ++i) {
+                buffer_cloud->points[i].x = input_cloud->points[i].x;
+                buffer_cloud->points[i].y = input_cloud->points[i].y;
+                buffer_cloud->points[i].z = input_cloud->points[i].z;
+            }
 
-        try {
-            pcl::fromROSMsg(*msg, *input_cloud);
-        } catch (const std::exception& e) {
-            RCLCPP_ERROR(get_logger(), "Error converting PointCloud2 to PCL: %s", e.what());
-            return;
+        } 
+        else if (sensor == SensorType::VELODYNE) {
+            VelodynePC::Ptr input_cloud = std::make_shared<VelodynePC>();
+            try 
+            {
+                pcl::fromROSMsg(*msg, *input_cloud);
+            } catch (const std::exception& e) {
+                RCLCPP_ERROR(get_logger(), "Error converting PointCloud2 to PCL: %s", e.what());
+                return;
+            }
+            input_cloud_ = input_cloud;
+            if (input_cloud->empty()) {
+                RCLCPP_WARN(get_logger(), "Input cloud is empty.");
+                return;
+            }            
+            buffer_cloud->resize(input_cloud->size());
+            for (size_t i = 0; i < input_cloud->size(); ++i) {
+                buffer_cloud->points[i].x = input_cloud->points[i].x;
+                buffer_cloud->points[i].y = input_cloud->points[i].y;
+                buffer_cloud->points[i].z = input_cloud->points[i].z;
+            }
+
         }
+        
+        
 
-        if (input_cloud->empty()) {
+        if (buffer_cloud->empty()) {
             RCLCPP_WARN(get_logger(), "Input cloud is empty.");
             return;
         }
 
-        buffer_cloud->resize(input_cloud->size());
-        for (size_t i = 0; i < input_cloud->size(); ++i) {
-            buffer_cloud->points[i].x = input_cloud->points[i].x;
-            buffer_cloud->points[i].y = input_cloud->points[i].y;
-            buffer_cloud->points[i].z = input_cloud->points[i].z;
-        }
+        
+
+        // buffer_cloud->resize(input_cloud->size());
+        // for (size_t i = 0; i < input_cloud->size(); ++i) {
+        //     buffer_cloud->points[i].x = input_cloud->points[i].x;
+        //     buffer_cloud->points[i].y = input_cloud->points[i].y;
+        //     buffer_cloud->points[i].z = input_cloud->points[i].z;
+        // }
 
         // Apply Voxel Grid filter
         pcl::VoxelGrid<pcl::PointXYZRGB> voxel_filter;

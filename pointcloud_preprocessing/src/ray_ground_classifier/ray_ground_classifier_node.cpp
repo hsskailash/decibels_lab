@@ -48,26 +48,48 @@ public:
             return;
         }
 
-        auto cloud = std::make_shared<OusterPC>();
-        try {
-            pcl::fromROSMsg(*msg, *cloud);
-        } catch (const std::exception& e) {
-            RCLCPP_ERROR(get_logger(), "Error converting PointCloud2 to PCL: %s", e.what());
-            return;
-        }
+        
+        if (sensor == SensorType::OUSTER) {
+            auto cloud = std::make_shared<OusterPC>();
+            try {
+                pcl::fromROSMsg(*msg, *cloud);
+            } catch (const std::exception& e) {
+                RCLCPP_ERROR(get_logger(), "Error converting PointCloud2 to PCL: %s", e.what());
+                return;
+            }
+            input_cloud_ = cloud;
 
-        if (cloud->empty()) {
-            RCLCPP_WARN(get_logger(), "Input cloud is empty.");
-            return;
-        }
+            if (cloud->empty()) {
+                    RCLCPP_WARN(get_logger(), "Input cloud is empty.");
+                    return;
+                }   
+        } else if (sensor == SensorType::VELODYNE) {
+            auto cloud = std::make_shared<VelodynePC>();
+            try {
+                pcl::fromROSMsg(*msg, *cloud);
+            } catch (const std::exception& e) {
+                RCLCPP_ERROR(get_logger(), "Error converting PointCloud2 to PCL: %s", e.what());
+                return;
+            }
+            input_cloud_ = cloud;
 
-        input_cloud_ = cloud;
+            if (cloud->empty()) {
+                    RCLCPP_WARN(get_logger(), "Input cloud is empty.");
+                    return;
+                }   
+        }
+    
         auto filtered_cloud = std::make_shared<OusterPC>();
         output_cloud_ = filtered_cloud;
 
         try {
-            applyRayGroundFilter(*cloud, *filtered_cloud);
-        } catch (const std::exception& e) {
+                if (sensor == SensorType::OUSTER) {
+                    applyRayGroundFilter(*std::static_pointer_cast<OusterPC>(input_cloud_), *std::static_pointer_cast<OusterPC>(output_cloud_));
+                } else if (sensor == SensorType::VELODYNE) {
+                    applyRayGroundFilter(*std::static_pointer_cast<VelodynePC>(input_cloud_), *std::static_pointer_cast<VelodynePC>(output_cloud_));
+                }
+            } 
+        catch (const std::exception& e) {
             RCLCPP_ERROR(get_logger(), "Error during ground filtering: %s", e.what());
             return;
         }
@@ -89,70 +111,71 @@ public:
         }
     }
 
-    void applyRayGroundFilter(const OusterPC& input, OusterPC& output) {
-        std::map<int, OusterPC> radial_bins;
-    
+    template<typename PointT>
+    void applyRayGroundFilter(const pcl::PointCloud<PointT>& input, pcl::PointCloud<PointT>& output) {
+        std::map<int, pcl::PointCloud<PointT>> radial_bins;
+        
         // Resize ring_height_thresholds to match the number of rings in your LiDAR
         const int num_rings = 32;  // Adjust this based on your LiDAR
         ring_height_thresholds.resize(num_rings, height_threshold);  // Default to height_threshold
-    
+        
         // Set stricter thresholds for the first 5 rings
         for (int i = 0; i < 5; ++i) {
             ring_height_thresholds[i] = 0.05f;  // Stricter threshold for the first 5 rings
         }
-    
+        
         for (const auto& point : input.points) {
             float range = std::sqrt(point.x * point.x + point.y * point.y);
             if (range < min_radius || range > max_radius) {
                 continue;
             }
-    
+        
             float angle = std::atan2(point.y, point.x);
             int bin_index = static_cast<int>(angle / radial_divider_angle);
-    
+        
             radial_bins[bin_index].push_back(point);
         }
-    
+        
         if (radial_bins.empty()) {
             RCLCPP_WARN(get_logger(), "No valid points after radial binning.");
             return;
         }
-    
+        
         for (auto& [bin_idx, bin_points] : radial_bins) {
             if (bin_points.empty()) {
                 continue;
             }
-    
+        
             std::sort(bin_points.points.begin(), bin_points.points.end(),
-                      [](const ouster_ros::Point& a, const ouster_ros::Point& b) {
+                      [](const auto& a, const auto& b) {
                           return std::sqrt(a.x * a.x + a.y * a.y) <
                                  std::sqrt(b.x * b.x + b.y * b.y);
                       });
-    
+                  
             // Initialize with the first point (assumed to be ground)
             float last_ground_z = bin_points.points.front().z;
             float last_ground_range = std::sqrt(
                 bin_points.points.front().x * bin_points.points.front().x +
                 bin_points.points.front().y * bin_points.points.front().y
             );
-    
+        
             for (const auto& point : bin_points.points) {
                 float range = std::sqrt(point.x * point.x + point.y * point.y);
                 float height_diff = point.z - last_ground_z;
                 float slope = std::abs(height_diff) / (range - last_ground_range);
-    
+            
                 // Extract ring number
                 int ring = point.ring;
-    
+            
                 // Ensure the ring index is within bounds
                 if (ring < 0 || ring >= ring_height_thresholds.size()) {
                     RCLCPP_WARN(get_logger(), "Invalid ring index: %d. Using default height threshold.", ring);
                     continue;
                 }
-    
+            
                 // Adaptive height threshold for the ring
                 float adaptive_height_threshold = ring_height_thresholds[ring];
-    
+            
                 if (slope <= ground_slope && std::abs(height_diff) <= adaptive_height_threshold) {
                     // Ground point: update last_ground_z and last_ground_range
                     last_ground_z = point.z;
@@ -162,7 +185,7 @@ public:
                 }
             }
         }
-    
+        
         if (output.empty()) {
             RCLCPP_WARN(get_logger(), "All points classified as ground.");
         }

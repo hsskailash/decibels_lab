@@ -103,35 +103,38 @@ public:
             filtered_pointcloud_pub_->publish(output_msg);
 
         } 
-        // else if (sensor == SensorType::VELODYNE) {
-        //     auto cloud = std::static_pointer_cast<VelodynePC>(input_cloud_);
-        //     auto filtered_cloud = std::make_shared<VelodynePC>();
+        else if (sensor == SensorType::VELODYNE) {
+            auto cloud = std::static_pointer_cast<VelodynePC>(input_cloud_);
+            auto filtered_cloud = std::make_shared<VelodynePC>();
 
-        //     // Remove NaN points
-        //     std::vector<int> indices;
-        //     pcl::removeNaNFromPointCloud(*cloud, *cloud, indices);
+            // Remove NaN points
+            std::vector<int> indices;
+            pcl::removeNaNFromPointCloud(*cloud, *cloud, indices);
 
-        //     // Filter points
-        //     for (const auto & point : cloud->points) {
-        //         bool in_box = point.x >= min_x && point.x <= max_x &&
-        //                       point.y >= min_y && point.y <= max_y &&
-        //                       point.z >= min_z && point.z <= max_z;
+            // Filter points
+            for (const auto & point : cloud->points) {
+                bool in_box = point.x >= min_x && point.x <= max_x &&
+                              point.y >= min_y && point.y <= max_y &&
+                              point.z >= min_z && point.z <= max_z;
 
-        //         if ((negative && in_box) || (!negative && !in_box)) {
-        //             filtered_cloud->points.push_back(point);
-        //         }
-        //     }
+                if ((negative && in_box) || (!negative && !in_box)) {
+                    filtered_cloud->points.push_back(point);
+                }
+            }
 
-        //     // Publish the filtered point cloud
-        //     filtered_cloud->width = filtered_cloud->points.size();
-        //     filtered_cloud->height = 1;
-        //     filtered_cloud->is_dense = true;
+            // Publish the filtered point cloud
+            filtered_cloud->width = filtered_cloud->points.size();
+            filtered_cloud->height = 1;
+            filtered_cloud->is_dense = true;
 
-        //     sensor_msgs::msg::PointCloud2 output_msg;
-        //     pcl::toROSMsg(*filtered_cloud, output_msg);
-        //     output_msg.header.frame_id = lidarFrame;
-        //     filtered_pointcloud_pub_->publish(output_msg);
-        // }
+            sensor_msgs::msg::PointCloud2 output_msg;
+            pcl::toROSMsg(*filtered_cloud, output_msg);
+            std_msgs::msg::Header header;
+            header.frame_id = lidarFrame;
+            header.stamp = get_clock()->now();
+            output_msg.header = header;
+            filtered_pointcloud_pub_->publish(output_msg);
+        }
     }
 
     

@@ -63,7 +63,9 @@ public:
                     RCLCPP_WARN(get_logger(), "Input cloud is empty.");
                     return;
                 }   
-        } else if (sensor == SensorType::VELODYNE) {
+        }
+         else 
+        if (sensor == SensorType::VELODYNE) {
             auto cloud = std::make_shared<VelodynePC>();
             try {
                 pcl::fromROSMsg(*msg, *cloud);
@@ -72,6 +74,7 @@ public:
                 return;
             }
             input_cloud_ = cloud;
+            
 
             if (cloud->empty()) {
                     RCLCPP_WARN(get_logger(), "Input cloud is empty.");
@@ -79,36 +82,59 @@ public:
                 }   
         }
     
-        auto filtered_cloud = std::make_shared<OusterPC>();
-        output_cloud_ = filtered_cloud;
+        
+        
 
         try {
                 if (sensor == SensorType::OUSTER) {
+                    auto filtered_cloud = std::make_shared<OusterPC>();
+                    output_cloud_ = filtered_cloud;
                     applyRayGroundFilter(*std::static_pointer_cast<OusterPC>(input_cloud_), *std::static_pointer_cast<OusterPC>(output_cloud_));
-                } else if (sensor == SensorType::VELODYNE) {
+                    
+                    if (filtered_cloud->empty()) {
+                         RCLCPP_WARN(get_logger(), "Filtered cloud is empty.");
+                    } else {
+                        sensor_msgs::msg::PointCloud2 output_msg;
+                        try {
+                            pcl::toROSMsg(*filtered_cloud, output_msg);
+                            std_msgs::msg::Header header;
+                            header.frame_id = lidarFrame;
+                            header.stamp = get_clock()->now();
+                            output_msg.header = header;
+                            filtered_pointcloud_pub_->publish(output_msg);
+                        } catch (const std::exception& e) {
+                            RCLCPP_ERROR(get_logger(), "Error converting filtered cloud: %s", e.what());
+                        }
+                    }
+                }  
+                else if (sensor == SensorType::VELODYNE) {
+                    auto filtered_cloud = std::make_shared<VelodynePC>();
+                    output_cloud_ = filtered_cloud;
                     applyRayGroundFilter(*std::static_pointer_cast<VelodynePC>(input_cloud_), *std::static_pointer_cast<VelodynePC>(output_cloud_));
+                    if (filtered_cloud->empty()) {
+                         RCLCPP_WARN(get_logger(), "Filtered cloud is empty.");
+                    } else {
+                        sensor_msgs::msg::PointCloud2 output_msg;
+                        try {
+                            pcl::toROSMsg(*filtered_cloud, output_msg);
+                            std_msgs::msg::Header header;
+                            header.frame_id = lidarFrame;
+                            header.stamp = get_clock()->now();
+                            output_msg.header = header;
+                            filtered_pointcloud_pub_->publish(output_msg);
+                        } catch (const std::exception& e) {
+                            RCLCPP_ERROR(get_logger(), "Error converting filtered cloud: %s", e.what());
+                        }
+                    }
                 }
+                
             } 
         catch (const std::exception& e) {
             RCLCPP_ERROR(get_logger(), "Error during ground filtering: %s", e.what());
             return;
         }
 
-        if (filtered_cloud->empty()) {
-            RCLCPP_WARN(get_logger(), "Filtered cloud is empty.");
-        } else {
-            sensor_msgs::msg::PointCloud2 output_msg;
-            try {
-                pcl::toROSMsg(*filtered_cloud, output_msg);
-                std_msgs::msg::Header header;
-                header.frame_id = lidarFrame;
-                header.stamp = get_clock()->now();
-                output_msg.header = header;
-                filtered_pointcloud_pub_->publish(output_msg);
-            } catch (const std::exception& e) {
-                RCLCPP_ERROR(get_logger(), "Error converting filtered cloud: %s", e.what());
-            }
-        }
+        
     }
 
     template<typename PointT>

@@ -6,6 +6,9 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /PointCloud21
+        - /PointCloud21/Status1
+        - /PointCloud21/Topic1
       Splitter Ratio: 0.5
     Tree Height: 549
   - Class: rviz_common/Selection
@@ -76,8 +79,8 @@ Visualization Manager:
         Durability Policy: Volatile
         Filter size: 10
         History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /velodyne_points
+        Reliability Policy: Best Effort
+        Value: /velodyne_points/ground_filtered
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -164,4 +167,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 70
-  Y: 60
+  Y: 17

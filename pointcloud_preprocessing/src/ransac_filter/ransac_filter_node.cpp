@@ -146,7 +146,7 @@ public:
 
 
         pcl::PointCloud<pcl::PointXYZRGB>::Ptr output_buffer = std::make_shared<pcl::PointCloud<pcl::PointXYZRGB>>();
-        OusterPC::Ptr filtered_cloud = std::make_shared<OusterPC>();
+        // OusterPC::Ptr filtered_cloud = std::make_shared<OusterPC>();
 
         try {
             applyRansacGroundFilter(*buffer_cloud, *output_buffer);

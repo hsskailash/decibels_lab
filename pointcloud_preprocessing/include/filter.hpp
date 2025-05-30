@@ -114,10 +114,10 @@ public:
         declare_parameter("robot_base_frame", "base_link");
         get_parameter("robot_base_frame", robot_base_frame);
 
-        declare_parameter("lidarFrame", "os_sensor");
+        declare_parameter("lidarFrame", "velodyne");
         get_parameter("lidarFrame", lidarFrame);
 
-        declare_parameter("sensor", "ouster");
+        declare_parameter("sensor", "velodyne");
         std::string sensorStr;
         get_parameter("sensor", sensorStr);
         // sensor = (sensorStr == "velodyne") ? SensorType::VELODYNE : SensorType::OUSTER;

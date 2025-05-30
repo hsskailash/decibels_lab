@@ -10,9 +10,9 @@ public:
     CropBoxFilter(std::string node_name, const rclcpp::NodeOptions & options) 
         : Filter("crop_box_filter", options) 
     {
-        // Subscriber for input point cloud
+        // Subscriber for input point cloud + "/ground_filtered"
         pointcloud_sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-            pointCloudTopic + "/ground_filtered", rclcpp::SensorDataQoS(), 
+            pointCloudTopic, rclcpp::SensorDataQoS(), 
             std::bind(&CropBoxFilter::pointcloudCallback, this, std::placeholders::_1));
 
         // Publisher for filtered point cloud
@@ -29,6 +29,14 @@ public:
             input_cloud_ = cloud;
             
         } 
+        else if (sensor == SensorType::VELODYNE) {
+            auto cloud = std::make_shared<VelodynePC>();
+            pcl::fromROSMsg(*msg, *cloud);
+            input_cloud_ = cloud;
+            
+        } 
+        
+
 
         
         // Perform the crop filter operation

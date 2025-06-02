@@ -48,7 +48,7 @@ public:
         }
 
         pointcloud_sub_ = create_subscription<sensor_msgs::msg::PointCloud2>(
-            pointCloudTopic + "/filtered", rclcpp::SensorDataQoS(),
+            pointCloudTopic + "/ground_filtered", rclcpp::SensorDataQoS(),
             std::bind(&RansacGroundFilter::pointcloudCallback, this, std::placeholders::_1));
 
         filtered_pointcloud_pub_ = create_publisher<sensor_msgs::msg::PointCloud2>(

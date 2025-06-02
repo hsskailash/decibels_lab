@@ -8,19 +8,19 @@
     <arg name="height" default="2.0"/>
     <arg name="negative" default="false"/>
 
-    <arg name="min_radius" default="0.5"/>
-    <arg name="max_radius" default="1000.0"/>
-    <arg name="ground_slope" default="0.5"/>
-    <arg name="height_threshold" default="10.5"/>
-    <arg name="radial_divider_angle" default="0.001"/>
+    <arg name="min_radius" default="0.01"/>
+    <arg name="max_radius" default="100.0"/>
+    <arg name="ground_slope" default="3.0"/>
+    <arg name="height_threshold" default="0.001"/>
+    <arg name="radial_divider_angle" default="0.7"/>
 
-    <arg name="distance_threshold" default="0.3"/>
+    <arg name="distance_threshold" default="0.2"/>
     <arg name="max_iterations" default="1500"/>
-    <arg name="voxel_size" default="0.05"/>
+    <arg name="voxel_size" default="0.1"/>
     <arg name="mean_k" default="100"/>
     <arg name="std_dev_thresh" default="10.0"/>
-    <arg name="z_max" default="2.50"/>
-    <arg name="z_min" default="-1.37"/>                                                                   
+    <arg name="z_max" default="10.0"/>
+    <arg name="z_min" default="-1.3 "/>                                                                   
 
 
 

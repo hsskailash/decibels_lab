@@ -27,7 +27,7 @@ public:
         get_parameter("radial_divider_angle", radial_divider_angle);
 
         // Define height thresholds per ring (adjust as needed)
-        ring_height_thresholds = {0.05, 0.05, 0.05, 0.05, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7}; // Lower for first rings
+        ring_height_thresholds = {0.00001, 0.00001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 0.3, 0.5, 0.7}; // Lower for first rings
 
         if (min_radius < 0 || max_radius <= min_radius || ground_slope <= 0 || height_threshold <= 0 || radial_divider_angle <= 0) {
             RCLCPP_ERROR(get_logger(), "Invalid parameters. Check configuration.");

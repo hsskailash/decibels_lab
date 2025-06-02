@@ -1,0 +1,26 @@
+<launch>
+    <!-- Arguments -->
+    <arg name="map_path" default="/home/wipod_orin/wipod_ws/maps/osms/b.osm"/>
+    <arg name="enable_inc_path_points" default="false"/>
+    <arg name="interval" default="0.5"/>
+    <arg name="origin_lat" default="12.923903488321232"/> <!-- Default latitude -->
+    <arg name="origin_lon" default="77.50052742264235"/>  <!-- Default longitude -->
+    <arg name="origin_alt" default="0.0"/>                <!-- Default altitude -->
+    <!-- <arg name="resolution" default="1.0"/> Add resolution parameter -->
+    <arg name="occupancy_grid_map_topic" default="/map"/> 
+
+
+    <!-- Node -->
+    <node pkg="map_visualizer" exec="osm_visualizer" name="osm_visualizer">
+      <param name="map_path" value="$(var map_path)"/>
+      <param name="enable_inc_path_points" value="$(var enable_inc_path_points)"/>
+      <param name="interval" value="$(var interval)"/>
+      <param name="origin_lat" value="$(var origin_lat)"/>
+      <param name="origin_lon" value="$(var origin_lon)"/>
+      <param name="origin_alt" value="$(var origin_alt)"/>
+    </node>
+    <node pkg="map_visualizer" exec="occupancy_pub" name="occupancy_pub">
+        <!-- <param name="resolution" value="$(var resolution)"/> Pass resolution parameter -->
+        <remap from="occupancy_grid" to="$(var occupancy_grid_map_topic)"/>
+    </node>
+</launch>

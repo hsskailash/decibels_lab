@@ -1,0 +1,151 @@
+controller_server:
+  ros__parameters:
+    odom_topic: /odometry_pub
+    use_sim_time: False
+    controller_frequency: 20.0
+    costmap_update_timeout: 0.5
+    use_realtime_priority: true
+    publish_zero_velocity: true
+    action_server_result_timeout: 1000
+    min_x_velocity_threshold: 2.0
+    min_theta_velocity_threshold: 0.05
+    failure_tolerance: 10.0
+    
+
+    
+    goal_checker_plugins: ["goal_checker"]
+    progress_checker_plugins: ["progress_checker"]  
+    controller_plugins: ["FollowPath"]
+
+
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.4
+      movement_time_allowance: 20.0
+
+    goal_checker:
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 1.0      # Max XY distance to goal (meters)
+      yaw_goal_tolerance: 0.4     # Max yaw error (radians)
+      stateful: True    
+
+
+    FollowPath:
+      plugin: teb_local_planner::TebLocalPlannerROS
+      teb_autosize: 5.0
+      dt_ref: 0.3
+      dt_hysteresis: 0.1
+      max_samples: 1000
+      global_plan_overwrite_orientation: False
+      allow_init_with_backwards_motion: True
+      max_global_plan_lookahead_dist: 3.0
+      global_plan_viapoint_sep: 0.1
+      global_plan_prune_distance: 0.3
+      exact_arc_length: True
+      feasibility_check_no_poses: 5
+      feasibility_check_lookahead_distance: 3.0
+      publish_feedback: False
+          
+      # Robot
+      base_max_vel_x: 3.0
+      base_max_vel_x_backwards: 3.0
+      base_max_vel_y: 0.0
+      base_max_vel_theta: 0.35
+
+      max_vel_x: 5.0
+      max_vel_x_backwards: 5.0
+      max_vel_y: 0.0
+      max_vel_theta: 0.5 
+      
+      acc_lim_x: 5.5
+      acc_lim_y: 0.0
+      acc_lim_theta: 0.1
+
+      min_turning_radius: 3.0
+      wheel_base: 2.90
+      transform_tolerance: 2.0
+      cmd_angle_instead_rotvel: true
+
+
+
+
+      footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+        type: "polygon"
+        vertices: "[[-3.07,-0.95], [-3.07, 0.95], [1.55, 0.95], [1.55,-0.95]]"
+        # radius: 0.17 # for type "circular"
+
+      # GoalTolerance
+      xy_goal_tolerance: 1.5
+      free_goal_vel: False
+          
+      # Obstacles
+          
+      min_obstacle_dist: 0.50
+      inflation_dist: 1.5
+      include_costmap_obstacles: True
+      costmap_obstacles_behind_robot_dist: 1.0
+      obstacle_poses_affected: 15
+
+      dynamic_obstacle_inflation_dist: 1.0
+      include_dynamic_obstacles: True 
+
+      costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSMCCH"
+      costmap_converter_spin_thread: True
+      costmap_converter_rate: 5
+
+      # Optimization
+          
+      no_inner_iterations: 10
+      no_outer_iterations: 5
+      optimization_activate: True
+      optimization_verbose: False
+      penalty_epsilon: 0.1
+      obstacle_cost_exponent: 4.0
+      weight_max_vel_x: 10.5
+      weight_max_vel_theta: 0.5
+      weight_acc_lim_x: 0.5
+      weight_acc_lim_theta: 10.5
+      weight_kinematics_nh: 10000.0
+      weight_kinematics_forward_drive: 10.0
+      weight_kinematics_turning_radius: 10.0
+      weight_optimaltime: 100.0 # must be > 0
+      weight_shortest_path: 10.0
+      weight_obstacle: 50.0
+      weight_inflation: 10.0
+      weight_dynamic_obstacle: 100.0 # not in use yetb
+      weight_dynamic_obstacle_inflation: 0.2
+      weight_viapoint: 50.0
+      weight_adapt_factor: 20.0
+
+      # Homotopy Class Planner
+
+      enable_homotopy_class_planning: True
+      enable_multithreading: True
+      max_number_classes: 2
+      selection_cost_hysteresis: 5.0
+      selection_prefer_initial_plan: 1.0
+      selection_obst_cost_scale: 100.0
+      selection_alternative_time_cost: True
+
+      roadmap_graph_no_samples: 15
+      roadmap_graph_area_width: 5.0
+      roadmap_graph_area_length_scale: 1.0
+      h_signature_prescaler: 0.5
+      h_signature_threshold: 0.1
+      obstacle_heading_threshold: 0.45
+      switching_blocking_period: 0.0
+      viapoints_all_candidates: True
+      delete_detours_backwards: True
+      max_ratio_detours_duration_best_duration: 3.0
+      visualize_hc_graph: False
+      visualize_with_time_as_z_axis_scale: 0.0
+
+      # Recovery
+      
+      shrink_horizon_backup: True
+      shrink_horizon_min_duration: 10.0
+      oscillation_recovery: True
+      oscillation_v_eps: 0.1
+      oscillation_omega_eps: 0.1
+      oscillation_recovery_min_duration: 10.0
+      oscillation_filter_duration: 10.0

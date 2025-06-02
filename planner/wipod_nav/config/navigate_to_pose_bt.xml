@@ -1,0 +1,5 @@
+<root main_tree_to_execute = "MainTree" >
+  <BehaviorTree ID="MainTree">
+    <NavigateToPose goal="{goal}" path="{path}" planner_id="SmacPlannerHybrid " controller_id="TebLocalPlannerROS" />
+  </BehaviorTree>
+</root>

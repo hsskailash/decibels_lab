@@ -67,7 +67,7 @@ ament_target_dependencies(map_loader
 )
 
 # ndt_localizer_node
-add_executable(ndt_localizer_node src/new_ndt.cpp)
+add_executable(ndt_localizer_node src/ndt.cpp)
 target_link_libraries(ndt_localizer_node ${PCL_LIBRARIES})
 ament_target_dependencies(ndt_localizer_node
   rclcpp

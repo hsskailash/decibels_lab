@@ -9,7 +9,7 @@ def generate_launch_description():
     # Define paths for your package and files
     # ndt_localizer_path = os.path.join(
     #     get_package_share_directory('ndt_localizer'), 'map', 'pointcloud_map.pcd')
-    ndt_localizer_path = "/home/wipod_orin/wipod_ws/maps/pointcloud_map.pcd"
+    ndt_localizer_path = "/home/bunty/wipod_ws/pcd_maps/map/pointcloud_map.pcd"
     return LaunchDescription([
         # Declare launch arguments
         DeclareLaunchArgument('roll', default_value='0.0'),

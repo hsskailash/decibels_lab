@@ -28,7 +28,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-ament_auto_add_executable(waypoint_processor src/waypoint_processor.cpp)
+#ament_auto_add_executable(waypoint_processor src/waypoint_processor.cpp)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -36,11 +36,11 @@ if(BUILD_TESTING)
 endif()
 install(DIRECTORY launch config
         DESTINATION share/${PROJECT_NAME})
-install(
-  DIRECTORY
-  src/
-  DESTINATION lib/${PROJECT_NAME}
-)
+#install(
+#  DIRECTORY
+#  src/
+#  DESTINATION lib/${PROJECT_NAME}
+#)
 ament_auto_package(
   INSTALL_TO_SHARE
   launch

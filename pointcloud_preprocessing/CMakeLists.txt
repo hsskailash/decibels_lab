@@ -90,13 +90,31 @@ ament_target_dependencies(ransac_filter
   tf2_geometry_msgs
   
 )
+
+add_executable(euclidian_cluster src/euclidian_clustering_node.cpp)
+ament_target_dependencies(euclidian_cluster   
+  rclcpp
+  rclpy
+  sensor_msgs
+  pcl_conversions
+  pcl_msgs
+  OpenCV
+  PCL
+  tf2
+  tf2_ros
+  nav_msgs
+  visualization_msgs
+  tf2_eigen
+  tf2_geometry_msgs
+  
+)
 # Link additional dependencies if necessary
 target_link_libraries(crop_box_filter ${PCL_LIBRARIES})
 target_link_libraries(ray_ground_classifier ${PCL_LIBRARIES})
 target_link_libraries(ransac_filter ${PCL_LIBRARIES})
 # Install the executables
 #ransac_filter
-install(TARGETS crop_box_filter ray_ground_classifier ransac_filter
+install(TARGETS crop_box_filter ray_ground_classifier ransac_filter euclidian_cluster
   DESTINATION lib/${PROJECT_NAME}
 )
 

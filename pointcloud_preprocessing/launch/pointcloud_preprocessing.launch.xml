@@ -20,7 +20,12 @@
     <arg name="mean_k" default="100"/>
     <arg name="std_dev_thresh" default="10.0"/>
     <arg name="z_max" default="10.0"/>
-    <arg name="z_min" default="-1.3 "/>                                                                   
+    <arg name="z_min" default="-1.0 "/>        
+
+    <arg name="cluster_tolerance" default="0.5"/>
+    <arg name="min_cluster_size" default="50"/>
+    <arg name="max_cluster_size" default="5000"/>
+                                                           
 
 
 
@@ -63,5 +68,15 @@
         <param name="std_dev_thresh" value="$(var std_dev_thresh)"/>
         <param name="z_max" value="$(var z_max)"/>
         <param name="z_min" value="$(var z_min)"/>       
+    </node>
+
+    <!-- New Euclidean clustering node -->
+    <node pkg="pointcloud_preprocessing" exec="euclidian_cluster" name="euclidian_cluster" output="screen">
+        <param name="sensor_type" value="$(var sensor)"/>
+        <param name="input_topic" value="$(var pointCloudTopic)/non_ground"/>
+        <param name="colored_topic" value="$(var pointCloudTopic)/colored_clusters"/>
+        <param name="cluster_tolerance" value="$(var cluster_tolerance)"/>
+        <param name="min_cluster_size" value="$(var min_cluster_size)"/>
+        <param name="max_cluster_size" value="$(var max_cluster_size)"/>
     </node>
 </launch>

@@ -65,13 +65,13 @@ def generate_launch_description():
 
 
         # Planner server node
-        Node(
-            package='nav2_planner',
-            executable='planner_server',
-            name='planner_server',
-            output='screen',
-            parameters=[LaunchConfiguration('global_costmap_param_file'), LaunchConfiguration('smac_param_file')]
-        ),
+        # Node(
+        #     package='nav2_planner',
+        #     executable='planner_server',
+        #     name='planner_server',
+        #     output='screen',
+        #     parameters=[LaunchConfiguration('global_costmap_param_file'), LaunchConfiguration('smac_param_file')]
+        # ),
         
         # Controller server node
         Node(
@@ -83,36 +83,23 @@ def generate_launch_description():
         ),
         
         # Recoveries server node
-        Node(
-            package='nav2_behaviors',
-            executable='behavior_server',
-            name='behavior_server',
-            output='screen',
-            parameters=[LaunchConfiguration('behavior_param_file')]
-        ),
-        Node(
-            package='nav2_smoother',
-            executable='smoother_server',
-            name='smoother_server',
-            output='screen',
-            parameters=[LaunchConfiguration('smoother_param_file')]
-        ),
-        Node(
-            package='nav2_velocity_smoother',
-            executable='velocity_smoother',
-            name='velocity_smoother',
-            output='screen',
-            parameters=[LaunchConfiguration('velocity_smoother_param_file')]
-        ),
+        # Node(
+        #     package='nav2_behaviors',
+        #     executable='behavior_server',
+        #     name='behavior_server',
+        #     output='screen',
+        #     parameters=[LaunchConfiguration('behavior_param_file')]
+        # ),
+     
         
         # Behavior Tree Navigator node
-        Node(
-            package='nav2_bt_navigator',
-            executable='bt_navigator',
-            name='bt_navigator',
-            output='screen',
-            parameters=[bt_path]
-        ),
+        # Node(
+        #     package='nav2_bt_navigator',
+        #     executable='bt_navigator',
+        #     name='bt_navigator',
+        #     output='screen',
+        #     parameters=[bt_path]
+        # ),
 
         # Load additional configuration parameters
         Node(
@@ -123,33 +110,10 @@ def generate_launch_description():
             parameters=[{
                 'use_sim_time': False,
                 'autostart': True,
-                'node_names': [ 'planner_server', 'controller_server', 'behavior_server', 'bt_navigator', 'smoother_server', 'velocity_smoother']
+                'node_names': ['controller_server']#, 'bt_navigator']
             }]
         ),
-        # Node(
-        #     package='wipod_nav',
-        #     executable='waypoint_processor',
-        #     name='waypoint_processor',
-        #     output='screen',
-        #     remappings=[('/current_pose','/ndt_pose')],
-        #     parameters=[{
-        #         'distance_threshold': 7.0,
-        #         'map_origin_lat': 12.923903488321232,
-        #         'map_origin_lon': 77.50052742264235
-        #     }]
-        # ),
-        # Node(
-        #     package='wipod_nav',
-        #     executable='osm_2_waypoint.py',
-        #     name='osm_2_waypoint',
-        #     output='screen'
-        # ),
-        # Node(
-        #     package='wipod_nav',
-        #     executable='sim_goal_publisher.py',
-        #     name='sim_goal_publisher',
-        #     output='screen'
-        # ),
+  
         
 
     ])

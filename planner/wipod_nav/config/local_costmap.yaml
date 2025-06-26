@@ -2,7 +2,7 @@ local_costmap:
   local_costmap: 
     ros__parameters:
        global_frame: "map"
-       robot_base_frame: "os_sensor"
+       robot_base_frame: "velodyne"
        update_frequency: 10.0
        publish_frequency: 5.0
        rolling_window: true
@@ -42,7 +42,7 @@ local_costmap:
           observation_sources:      pointcloud
           pointcloud:
             data_type: PointCloud2
-            topic: /ouster/points/non_ground
+            topic: /velodyne_points/non_ground
             marking: true
             clearing: true
             obstacle_range: 50.0

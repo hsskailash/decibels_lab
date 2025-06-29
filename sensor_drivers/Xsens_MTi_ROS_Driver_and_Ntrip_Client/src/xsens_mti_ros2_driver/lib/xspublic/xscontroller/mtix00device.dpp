@@ -32,15 +32,16 @@ mtix00device.cpp.o: mtix00device.cpp xscontrollerconfig.h \
  ../xstypes/xsstringarray.h ../xstypes/xsfilterprofilearray.h \
  ../xstypes/xsfilterprofile.h ../xstypes/xsfilterprofilekind.h \
  ../xstypes/xsintarray.h ../xstypes/xssyncline.h \
- ../xstypes/xssensorranges.h ../xstypes/xsdatapacket.h \
- ../xstypes/xsmessage.h ../xstypes/xsushortvector.h \
- ../xstypes/xsscrdata.h ../xstypes/xscalibrateddata.h \
- ../xstypes/xsvector3.h ../xstypes/xsvector.h ../xstypes/xsmath.h \
- ../xstypes/xsfloatmath.h ../xstypes/xsmath2.h ../xstypes/xspressure.h \
- ../xstypes/xssdidata.h ../xstypes/xsquaternion.h ../xstypes/xsmatrix.h \
- ../xstypes/xseuler.h ../xstypes/xsanalogindata.h \
- ../xstypes/xsrawgnsspvtdata.h ../xstypes/xsrawgnsssatinfo.h \
- ../xstypes/xsdeviceid.h ../xstypes/xsrange.h \
+ ../xstypes/xssensorranges.h ../xstypes/xsdeviceid.h \
+ ../xstypes/xsdatapacket.h ../xstypes/xsmessage.h \
+ ../xstypes/xsushortvector.h ../xstypes/xsscrdata.h \
+ ../xstypes/xsscrdatafloat.h ../xstypes/xsfloatvector.h \
+ ../xstypes/xscalibrateddata.h ../xstypes/xsvector3.h \
+ ../xstypes/xsvector.h ../xstypes/xsmath.h ../xstypes/xsfloatmath.h \
+ ../xstypes/xsmath2.h ../xstypes/xspressure.h ../xstypes/xssdidata.h \
+ ../xstypes/xsquaternion.h ../xstypes/xsmatrix.h ../xstypes/xseuler.h \
+ ../xstypes/xsanalogindata.h ../xstypes/xsrawgnsspvtdata.h \
+ ../xstypes/xsrawgnsssatinfo.h ../xstypes/xsrange.h \
  ../xstypes/xstriggerindicationdata.h ../xstypes/xssnapshot.h \
  ../xstypes/xsglovesnapshot.h ../xstypes/xsglovedata.h \
  scenariomatchpred.h ../xstypes/xstypesconfig.h \
@@ -140,10 +141,13 @@ xsdevice_public.h:
 ../xstypes/xsintarray.h:
 ../xstypes/xssyncline.h:
 ../xstypes/xssensorranges.h:
+../xstypes/xsdeviceid.h:
 ../xstypes/xsdatapacket.h:
 ../xstypes/xsmessage.h:
 ../xstypes/xsushortvector.h:
 ../xstypes/xsscrdata.h:
+../xstypes/xsscrdatafloat.h:
+../xstypes/xsfloatvector.h:
 ../xstypes/xscalibrateddata.h:
 ../xstypes/xsvector3.h:
 ../xstypes/xsvector.h:
@@ -158,7 +162,6 @@ xsdevice_public.h:
 ../xstypes/xsanalogindata.h:
 ../xstypes/xsrawgnsspvtdata.h:
 ../xstypes/xsrawgnsssatinfo.h:
-../xstypes/xsdeviceid.h:
 ../xstypes/xsrange.h:
 ../xstypes/xstriggerindicationdata.h:
 ../xstypes/xssnapshot.h:

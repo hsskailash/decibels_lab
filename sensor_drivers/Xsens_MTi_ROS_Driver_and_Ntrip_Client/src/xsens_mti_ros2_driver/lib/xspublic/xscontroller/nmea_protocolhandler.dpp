@@ -10,6 +10,7 @@ nmea_protocolhandler.cpp.o: nmea_protocolhandler.cpp xscontrollerconfig.h \
  ../xstypes/xsbusid.h ../xstypes/xsbytearray.h ../xstypes/xsdatapacket.h \
  ../xstypes/xsmessage.h ../xstypes/xstimestamp.h ../xstypes/xstimeinfo.h \
  ../xstypes/xsushortvector.h ../xstypes/xsscrdata.h \
+ ../xstypes/xsscrdatafloat.h ../xstypes/xsfloatvector.h \
  ../xstypes/xscalibrateddata.h ../xstypes/xsvector3.h \
  ../xstypes/xsvector.h ../xstypes/xsmath.h ../xstypes/xsfloatmath.h \
  ../xstypes/xsmath2.h ../xstypes/xspressure.h ../xstypes/xssdidata.h \
@@ -49,6 +50,8 @@ xsprotocoltype.h:
 ../xstypes/xstimeinfo.h:
 ../xstypes/xsushortvector.h:
 ../xstypes/xsscrdata.h:
+../xstypes/xsscrdatafloat.h:
+../xstypes/xsfloatvector.h:
 ../xstypes/xscalibrateddata.h:
 ../xstypes/xsvector3.h:
 ../xstypes/xsvector.h:

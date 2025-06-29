@@ -4,9 +4,9 @@ datapacket_p.c.o: datapacket_p.cpp datapacket_p.h xsmessage.h \
  xsresultvalue.h xsbusid.h xsdeviceid.h xshandid.h xstypesdef.h \
  xstimestamp.h xstimeinfo.h xsquaternion.h xsmath.h xsfloatmath.h \
  xsmath2.h xsushortvector.h xsvector3.h xsvector.h xsscrdata.h \
- xstriggerindicationdata.h xseuler.h xsmatrix3x3.h xsmatrix.h xsrange.h \
- xsrawgnsspvtdata.h xsrawgnsssatinfo.h xsglovesnapshot.h xsglovedata.h \
- xssnapshot.h
+ xsscrdatafloat.h xsfloatvector.h xstriggerindicationdata.h xseuler.h \
+ xsmatrix3x3.h xsmatrix.h xsrange.h xsrawgnsspvtdata.h xsrawgnsssatinfo.h \
+ xsglovesnapshot.h xsglovedata.h xssnapshot.h
 datapacket_p.cpp:
 datapacket_p.h:
 xsmessage.h:
@@ -34,6 +34,8 @@ xsushortvector.h:
 xsvector3.h:
 xsvector.h:
 xsscrdata.h:
+xsscrdatafloat.h:
+xsfloatvector.h:
 xstriggerindicationdata.h:
 xseuler.h:
 xsmatrix3x3.h:

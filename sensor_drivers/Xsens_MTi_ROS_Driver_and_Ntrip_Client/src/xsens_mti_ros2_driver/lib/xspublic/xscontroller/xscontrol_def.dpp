@@ -26,6 +26,7 @@ xscontrol_def.cpp.o: xscontrol_def.cpp xscontrollerconfig.h \
  ../xstypes/xsfilterprofile.h ../xstypes/xsfilterprofilekind.h \
  ../xstypes/xsdatapacket.h ../xstypes/xsmessage.h \
  ../xstypes/xsushortvector.h ../xstypes/xsscrdata.h \
+ ../xstypes/xsscrdatafloat.h ../xstypes/xsfloatvector.h \
  ../xstypes/xscalibrateddata.h ../xstypes/xsvector3.h \
  ../xstypes/xspressure.h ../xstypes/xssdidata.h ../xstypes/xsquaternion.h \
  ../xstypes/xsmatrix.h ../xstypes/xseuler.h ../xstypes/xsanalogindata.h \
@@ -130,6 +131,8 @@ xsdeviceconfiguration.h:
 ../xstypes/xsmessage.h:
 ../xstypes/xsushortvector.h:
 ../xstypes/xsscrdata.h:
+../xstypes/xsscrdatafloat.h:
+../xstypes/xsfloatvector.h:
 ../xstypes/xscalibrateddata.h:
 ../xstypes/xsvector3.h:
 ../xstypes/xspressure.h:

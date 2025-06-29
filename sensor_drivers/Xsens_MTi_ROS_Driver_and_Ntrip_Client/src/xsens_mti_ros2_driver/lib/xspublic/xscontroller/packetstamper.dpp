@@ -8,6 +8,7 @@ packetstamper.cpp.o: packetstamper.cpp xscontrollerconfig.h \
  ../xstypes/xsxbusmessageid.h ../xstypes/xsresultvalue.h \
  ../xstypes/xsbusid.h ../xstypes/xstimestamp.h ../xstypes/xstimeinfo.h \
  ../xstypes/xsushortvector.h ../xstypes/xsscrdata.h \
+ ../xstypes/xsscrdatafloat.h ../xstypes/xsfloatvector.h \
  ../xstypes/xscalibrateddata.h ../xstypes/xsvector3.h \
  ../xstypes/xsvector.h ../xstypes/xsmath.h ../xstypes/xsfloatmath.h \
  ../xstypes/xsmath2.h ../xstypes/xspressure.h ../xstypes/xssdidata.h \
@@ -41,6 +42,8 @@ xscontrollerconfig.h:
 ../xstypes/xstimeinfo.h:
 ../xstypes/xsushortvector.h:
 ../xstypes/xsscrdata.h:
+../xstypes/xsscrdatafloat.h:
+../xstypes/xsfloatvector.h:
 ../xstypes/xscalibrateddata.h:
 ../xstypes/xsvector3.h:
 ../xstypes/xsvector.h:

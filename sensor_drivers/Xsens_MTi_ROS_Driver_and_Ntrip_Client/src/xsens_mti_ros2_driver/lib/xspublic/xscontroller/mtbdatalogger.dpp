@@ -13,7 +13,8 @@ mtbdatalogger.cpp.o: mtbdatalogger.cpp xscontrollerconfig.h \
  ../xstypes/xsfilepos.h protocolhandler.h iprotocolhandler.h \
  messagelocation.h xsprotocoltype.h ../xstypes/xsdatapacket.h \
  ../xstypes/xsmessage.h ../xstypes/xsushortvector.h \
- ../xstypes/xsscrdata.h ../xstypes/xscalibrateddata.h \
+ ../xstypes/xsscrdata.h ../xstypes/xsscrdatafloat.h \
+ ../xstypes/xsfloatvector.h ../xstypes/xscalibrateddata.h \
  ../xstypes/xsvector3.h ../xstypes/xsvector.h ../xstypes/xsmath.h \
  ../xstypes/xsfloatmath.h ../xstypes/xsmath2.h ../xstypes/xspressure.h \
  ../xstypes/xssdidata.h ../xstypes/xsquaternion.h ../xstypes/xsmatrix.h \
@@ -63,6 +64,8 @@ xsprotocoltype.h:
 ../xstypes/xsmessage.h:
 ../xstypes/xsushortvector.h:
 ../xstypes/xsscrdata.h:
+../xstypes/xsscrdatafloat.h:
+../xstypes/xsfloatvector.h:
 ../xstypes/xscalibrateddata.h:
 ../xstypes/xsvector3.h:
 ../xstypes/xsvector.h:

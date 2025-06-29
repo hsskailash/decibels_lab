@@ -31,6 +31,7 @@ xsdevice_def.cpp.o: xsdevice_def.cpp xscontrollerconfig.h \
  xsubloxgnssplatform.h xsoperationalmode.h xsdevice_public.h \
  ../xstypes/xsdatapacket.h ../xstypes/xsmessage.h \
  ../xstypes/xsushortvector.h ../xstypes/xsscrdata.h \
+ ../xstypes/xsscrdatafloat.h ../xstypes/xsfloatvector.h \
  ../xstypes/xscalibrateddata.h ../xstypes/xsvector3.h \
  ../xstypes/xsvector.h ../xstypes/xsmath.h ../xstypes/xsfloatmath.h \
  ../xstypes/xsmath2.h ../xstypes/xspressure.h ../xstypes/xssdidata.h \
@@ -147,6 +148,8 @@ xsdevice_public.h:
 ../xstypes/xsmessage.h:
 ../xstypes/xsushortvector.h:
 ../xstypes/xsscrdata.h:
+../xstypes/xsscrdatafloat.h:
+../xstypes/xsfloatvector.h:
 ../xstypes/xscalibrateddata.h:
 ../xstypes/xsvector3.h:
 ../xstypes/xsvector.h:

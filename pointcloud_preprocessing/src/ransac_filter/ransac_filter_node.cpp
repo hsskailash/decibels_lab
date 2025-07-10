@@ -123,10 +123,10 @@ public:
         // }
 
         // Apply Voxel Grid filter
-        pcl::VoxelGrid<pcl::PointXYZRGB> voxel_filter;
-        voxel_filter.setInputCloud(buffer_cloud);
-        voxel_filter.setLeafSize(voxel_size, voxel_size, voxel_size);
-        voxel_filter.filter(*buffer_cloud);
+        // pcl::VoxelGrid<pcl::PointXYZRGB> voxel_filter;
+        // voxel_filter.setInputCloud(buffer_cloud);
+        // voxel_filter.setLeafSize(voxel_size, voxel_size, voxel_size);
+        // voxel_filter.filter(*buffer_cloud);
 
         // Apply Statistical Outlier Removal filter
         pcl::StatisticalOutlierRemoval<pcl::PointXYZRGB> sor;

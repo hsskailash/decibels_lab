@@ -2,7 +2,7 @@
 
   <arg name="ouster_ns" default="ouster"
     description="Override the default namespace of all ouster nodes"/>
-  <arg name="sensor_hostname" default="os-122427000031.local"
+  <arg name="sensor_hostname" default="os-122427001080.local"
     description="hostname or IP in dotted decimal form of the sensor"/>
   <arg name="udp_dest" default=""
     description="hostname or IP where the sensor will send data packets"/>
@@ -105,9 +105,9 @@
   <executable cmd="$(find-exec ros2) lifecycle set /$(var ouster_ns)/os_driver activate"
     launch-prefix="bash -c 'sleep 1; $0 $@'" output="screen"/>
 
-  <!-- <include if="$(var viz)" file="$(find-pkg-share ouster_ros)/launch/rviz.launch.xml">
+  <include if="$(var viz)" file="$(find-pkg-share ouster_ros)/launch/rviz.launch.xml">
     <arg name="ouster_ns" value="$(var ouster_ns)"/>
     <arg name="rviz_config" value="$(var rviz_config)"/>
-  </include> -->
+  </include>
 
 </launch>

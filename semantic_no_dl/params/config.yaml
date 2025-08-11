@@ -1,0 +1,7 @@
+ouster_segmenter:
+  ros__parameters:
+    voxel_size: 0.15      # meters (Ouster typically has higher resolution)
+    ground_threshold: 0.3 # meters above lowest point
+    cluster_tolerance: 0.5 # meters (Euclidean clustering distance)
+    min_cluster_size: 15   # points (Ouster has dense points)
+    max_cluster_size: 5000 # points

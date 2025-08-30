@@ -1,0 +1,6 @@
+lidar_fov_filter:
+  ros__parameters:
+    view_direction: 0.0      # Center of FOV in radians (0 = front)
+    view_width: 3.14159      # Width of FOV in radians (π = 180°)
+    input_topic: "/ouster/points"
+    output_topic: "/ouster/points_filtered"
